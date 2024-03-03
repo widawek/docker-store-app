@@ -1,13 +1,15 @@
-# FROM node:21-alpine3.18
-# WORKDIR /app
-# COPY package.json yarn.lock ./
-# RUN yarn install
-# COPY . .
-# RUN yarn build
-FROM nginx:alpine
+FROM node:21-alpine3.18
+
+WORKDIR /app
+
+COPY package.json .
+
+RUN yarn install
 
 COPY . .
 
+RUN yarn build
+
 EXPOSE 3000
 
-# CMD ["nginx", "-g", "daemon off;"]
+CMD ["yarn", "start"]
