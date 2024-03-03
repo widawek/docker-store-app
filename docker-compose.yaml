@@ -1,0 +1,65 @@
+version: '3.8'
+services:
+  db:
+    image: mysql:8.3.0
+    env_file:
+      - env/mysql.env
+    ports:
+      - "3306:3306"
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - app-network
+
+  rabbitmq:
+    image: "rabbitmq:3.13.0"
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    networks:
+      - app-network
+
+  notifications-api:
+    build: ./notifications-api
+    ports:
+      - "5001:5001"
+    env_file:
+      - env/rabbit.env
+    depends_on:
+      - rabbitmq
+    networks:
+      - app-network
+
+  products-api:
+    build: ./products-api
+    ports:
+      - "8080:8080"
+    env_file:
+      - env/products-api.env
+      - env/rabbit.env
+    depends_on:
+      - db
+      - notifications-api
+    networks:
+      - app-network
+
+  store-frontend:
+    build: ./store-frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - products-api
+    stdin_open: true
+    tty: true
+    networks:
+      - app-network
+
+volumes:
+  db-data:
+  rabbitmq-data:
+
+networks:
+  app-network:
+    driver: bridge
