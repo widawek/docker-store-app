@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: products-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      component: products-api
+  template:
+    metadata:
+      labels:
+        component: products-api
+    spec:
+      containers:
+        - name: products-api-app
+          image: widawek/store-app-products-api:1.0.0
+          ports:
+            - containerPort: 8080
+          env:
+            - name: MYSQL_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_USERNAME
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_PASSWORD
+          envFrom:
+            - configMapRef:
+                name: mysql-configmap

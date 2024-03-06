@@ -1,6 +1,6 @@
 import { Button } from "@chakra-ui/button";
 import { ListItem, UnorderedList, Input } from "@chakra-ui/react";
-import React from "react";
+import React, { useRef } from "react";
 import { FiShoppingBag } from "react-icons/fi";
 import Modal from "react-modal";
 import axios from "axios";
@@ -17,7 +17,7 @@ const customStyles = {
 };
 
 export default function Checkout({ order }) {
-  let subtitle;
+  const subtitleRef = useRef(null);
   const [phone, setPhone] = React.useState("");
   const [address, setAddress] = React.useState("");
   const [modalIsOpen, setIsOpen] = React.useState(false);
@@ -27,7 +27,9 @@ export default function Checkout({ order }) {
   }
 
   function afterOpenModal() {
-    subtitle.style.color = "#f00";
+    if (subtitleRef.current) {
+      subtitleRef.current.style.color = "#f00";
+    }
   }
 
   function closeModal() {
@@ -37,13 +39,16 @@ export default function Checkout({ order }) {
   const placeOrder = async () => {
     if (address && phone && order.length) {
       try {
-        const order = await axios.post("/api/orders", {
+        const orderResponse = await axios.post("/api/orders", {
           order,
           phone,
           address,
         });
+        console.log('Order placed successfully:', orderResponse.data);
         setIsOpen(false);
-      } catch (error) {}
+      } catch (error) {
+        console.error('Failed to place order:', error);
+      }
     }
   };
 
@@ -67,9 +72,10 @@ export default function Checkout({ order }) {
         style={customStyles}
         contentLabel="Example Modal"
       >
+        {/* <h2 ref={subtitleRef}>Tytuł modalu</h2> */}
         <UnorderedList>
-          {order.map((item) => (
-            <ListItem>
+          {order.map((item, index) => (
+            <ListItem key={index}> {/* Dodano atrybut key */}
               {item.product} x {item.quantity}
             </ListItem>
           ))}
@@ -86,6 +92,7 @@ export default function Checkout({ order }) {
         />
         <Button onClick={placeOrder}>Place Order</Button>
       </Modal>
+
     </div>
   );
 }

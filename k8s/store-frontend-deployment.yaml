@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: store-frontend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      component: store-frontend
+  template:
+    metadata:
+      labels:
+        component: store-frontend
+    spec:
+      containers:
+        - name: store-frontend-app
+          image: widawek/store-app-store-frontend:1.0.0
+          ports:
+            - containerPort: 80

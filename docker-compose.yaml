@@ -4,25 +4,24 @@ services:
     image: mysql:8.3.0
     env_file:
       - env/mysql.env
-    ports:
-      - "3306:3306"
     volumes:
       - db-data:/var/lib/mysql
     networks:
-      - app-network
+      - store-network
 
   rabbitmq:
-    image: "rabbitmq:3.13.0"
+    image: rabbitmq:3.13.0
     ports:
       - "15672:15672"
       - "5672:5672"
     volumes:
       - rabbitmq-data:/var/lib/rabbitmq
     networks:
-      - app-network
+      - store-network
 
   notifications-api:
-    build: ./notifications-api
+    build: 
+      context: ./notifications-api
     ports:
       - "5001:5001"
     env_file:
@@ -30,10 +29,11 @@ services:
     depends_on:
       - rabbitmq
     networks:
-      - app-network
+      - store-network
 
   products-api:
-    build: ./products-api
+    build: 
+      context: ./products-api
     ports:
       - "8080:8080"
     env_file:
@@ -43,10 +43,11 @@ services:
       - db
       - notifications-api
     networks:
-      - app-network
+      - store-network
 
   store-frontend:
-    build: ./store-frontend
+    build: 
+      context: ./store-frontend
     ports:
       - "3000:3000"
     depends_on:
@@ -54,12 +55,12 @@ services:
     stdin_open: true
     tty: true
     networks:
-      - app-network
+      - store-network
 
 volumes:
   db-data:
   rabbitmq-data:
 
 networks:
-  app-network:
+  store-network:
     driver: bridge
