@@ -11,18 +11,18 @@ spec:
   rules:
     - http:
         paths:
-          - path: /(.*)
+          - path: /   # (.*)
             pathType: ImplementationSpecific
             backend:
               service:
                 name: store-frondend-cluster-ip-service
                 port:
                   number: 3000
-          - path: /api/(.*)
-            pathType: ImplementationSpecific
-            backend:
-              service:
-                name: products-api-cluster-ip-service
-                port:
-                  number: 8080
+          # - path: / #api/(.*)
+          #   pathType: ImplementationSpecific
+          #   backend:
+          #     service:
+          #       name: products-api-cluster-ip-service
+          #       port:
+          #         number: 3000
 

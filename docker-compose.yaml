@@ -1,11 +1,11 @@
 version: '3.8'
 services:
-  db:
+  storedb:
     image: mysql:8.3.0
     env_file:
       - env/mysql.env
     volumes:
-      - db-data:/var/lib/mysql
+      - storedb-data:/var/lib/mysql
     networks:
       - store-network
 
@@ -40,7 +40,7 @@ services:
       - env/products-api.env
       - env/rabbit.env
     depends_on:
-      - db
+      - storedb
       - notifications-api
     networks:
       - store-network
@@ -58,7 +58,7 @@ services:
       - store-network
 
 volumes:
-  db-data:
+  storedb-data:
   rabbitmq-data:
 
 networks:

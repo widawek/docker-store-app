@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: db
+  name: storedb
 spec:
   replicas: 1
   selector:
@@ -14,23 +14,26 @@ spec:
     spec:
       containers:
         - name: mysql
-          image: db
+          image: mysql:8.3.0
           ports:
             - containerPort: 3306
-          env:
-            - name: MYSQL_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: mysql-secret
-                  key: MYSQL_USERNAME
-            - name: MYSQL_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: mysql-secret
-                  key: MYSQL_PASSWORD
+          envFrom:
+            - configMapRef:
+                name: mysql-configmap
+          # env:
+          #   - name: MYSQL_USERNAME
+          #     valueFrom:
+          #       secretKeyRef:
+          #         name: mysql-secret
+          #         key: MYSQL_USERNAME
+          #   - name: MYSQL_PASSWORD
+          #     valueFrom:
+          #       secretKeyRef:
+          #         name: mysql-secret
+          #         key: MYSQL_PASSWORD
           volumeMounts:
             - name: mysql-storage
-              mountPath: /data/db
+              mountPath: /data/storedb
       volumes:
         - name: mysql-storage
           persistentVolumeClaim:

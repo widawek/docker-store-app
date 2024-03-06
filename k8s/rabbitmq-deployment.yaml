@@ -28,7 +28,7 @@ spec:
             mountPath: /var/lib/rabbitmq
           envFrom:
             - configMapRef:
-                name: rabbit-configmap
+                name: rabbitmq-configmap
       volumes:
       - name: rabbitmq-data
         persistentVolumeClaim:

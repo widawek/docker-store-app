@@ -19,4 +19,4 @@ spec:
         - containerPort: 5001
         envFrom:
         - configMapRef:
-            name: notifications-api-env
+            name: rabbitmq-configmap

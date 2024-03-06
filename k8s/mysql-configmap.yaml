@@ -3,4 +3,7 @@ kind: ConfigMap
 metadata:
   name: mysql-configmap
 data:
-  MYSQL_HOST: "mysql-cluster-ip-service"
+  MYSQL_ROOT_PASSWORD: password
+  MYSQL_DATABASE: storedb
+  MYSQL_USERNAME: user
+  MYSQL_PASSWORD: password
