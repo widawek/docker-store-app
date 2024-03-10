@@ -4,6 +4,5 @@ metadata:
   name: rabbitmq-configmap
 data:
   RABBITMQ_HOST: "rabbitmq-cluster-ip-service"
-  # RABBITMQ_HOST: rabbitmq
   RABBITMQ_PORT: "5672"
   RABBITMQ_QUEUE_NAME: storeQueue

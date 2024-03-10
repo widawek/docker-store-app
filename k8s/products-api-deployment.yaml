@@ -14,12 +14,9 @@ spec:
     spec:
       containers:
         - name: products-api-app
-          image: widawek/store-app-products-api:1.0.1
+          image: widawek/store-app-products-api:1.0.0
           ports:
             - containerPort: 8080
-          envFrom:
-            - configMapRef:
-                name: mysql-configmap
           env:
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
@@ -31,3 +28,6 @@ spec:
                 secretKeyRef:
                   name: mysql-secret
                   key: MYSQL_USER
+          envFrom:
+            - configMapRef:
+                name: mysql-configmap
