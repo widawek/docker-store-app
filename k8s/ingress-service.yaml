@@ -10,11 +10,20 @@ spec:
   rules:
     - http:
         paths:
-          - path: /api/products/(.*)
+          - path: /(.*)
+            # pathType: Prefix
             pathType: ImplementationSpecific
             backend:
               service:
-                name: store-frondend-cluster-ip-service
+                name: store-frontend-cluster-ip-service
                 port:
                   number: 3000
+          - path: /api/(.*)
+            # pathType: Prefix
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: products-api-cluster-ip-service
+                port:
+                  number: 8080
 
