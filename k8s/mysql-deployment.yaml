@@ -20,17 +20,17 @@ spec:
           envFrom:
             - configMapRef:
                 name: mysql-configmap
-          # env:
-          #   - name: MYSQL_USERNAME
-          #     valueFrom:
-          #       secretKeyRef:
-          #         name: mysql-secret
-          #         key: MYSQL_USERNAME
-          #   - name: MYSQL_PASSWORD
-          #     valueFrom:
-          #       secretKeyRef:
-          #         name: mysql-secret
-          #         key: MYSQL_PASSWORD
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_PASSWORD
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: MYSQL_USER
           volumeMounts:
             - name: mysql-storage
               mountPath: /data/storedb

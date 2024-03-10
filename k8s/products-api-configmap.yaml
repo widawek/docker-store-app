@@ -4,11 +4,6 @@ metadata:
   name: products-api-configmap
 data:
   MYSQL_HOST: "products-api-cluster-ip-service"
-  MYSQL_USERNAME: user
-  MYSQL_PASSWORD: password
   MYSQL_DATABASE: storedb
   MYSQL_PORT: "3306"
-  SPRING_DATASOURCE_URL: "jdbc:mysql://products-api-cluster-ip-service:3306/storedb?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true"
-  SPRING_DATASOURCE_USERNAME: user
-  SPRING_DATASOURCE_PASSWORD: password
   

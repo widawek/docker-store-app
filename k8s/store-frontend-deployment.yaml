@@ -16,4 +16,4 @@ spec:
         - name: store-frontend-app
           image: widawek/store-app-store-frontend:1.0.0
           ports:
-            - containerPort: 80
+            - containerPort: 3000
